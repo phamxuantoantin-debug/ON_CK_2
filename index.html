@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyển đổi số: Điểm và Đường thẳng - Toán 6</title>
+    
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+            options: { enableMenu: false }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #00796b; --secondary: #455a64; --accent: #ff5722; --bg: #f0f4f8;
+            --point-color: #d32f2f; --line-color: #1976d2;
+            --correct: #2e7d32; --wrong: #c62828;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; line-height: 1.6; color: #333; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        
+        .header { text-align: center; background: linear-gradient(135deg, var(--primary), #004d40); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+
+        /* KIẾN THỨC CHI TIẾT */
+        .section-title { color: var(--primary); border-bottom: 3px solid var(--primary); display: inline-block; margin-top: 30px; padding-bottom: 5px; }
+        .lesson-card { background: #fffde7; padding: 25px; border-radius: 15px; border-left: 10px solid #fbc02d; margin-bottom: 20px; }
+        .info-box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #e0e0e0; margin: 15px 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02); }
+        
+        /* HÌNH ẢNH TĨNH */
+        .static-img { text-align: center; margin: 20px 0; padding: 15px; background: #fafafa; border-radius: 10px; border: 1px solid #eee; }
+        .img-label { font-size: 0.9rem; color: #666; font-style: italic; margin-top: 8px; }
+
+
+        /* QUIZ */
+        #quiz-auth { text-align: center; padding: 40px; background: #e8f5e9; border-radius: 15px; border: 2px solid var(--primary); }
+        .input-name { padding: 12px; width: 280px; border-radius: 8px; border: 2px solid var(--primary); font-size: 1rem; }
+        #quiz-content { display: none; }
+        .q-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px; }
+        .option-btn { padding: 12px; border: 2px solid #dee2e6; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .option-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .drop-zone { display: inline-block; width: 140px; height: 35px; border: 2px dashed #999; vertical-align: middle; border-radius: 8px; background: #f9f9f9; text-align: center; }
+        .draggable { display: inline-block; padding: 5px 12px; background: var(--secondary); color: white; border-radius: 5px; cursor: grab; margin: 5px; }
+        
+        .ans-feedback { display: none; margin-top: 10px; font-weight: bold; }
+        .btn { padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+        .btn-main { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+<style>
+    .header-wrapper {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background: #0581be;
+        position: relative; /* Làm gốc để căn chỉnh */
+        border-bottom: 2px solid #00adef; /* Đường kẻ xanh đặc trưng Chân trời sáng tạo */
+    }
+
+    .logo-img {
+        width: 80px; 
+        height: 80px; 
+        border-radius: 50%; 
+        border: 2px solid #eee;
+        z-index: 2; /* Đảm bảo logo luôn nổi lên trên */
+    }
+
+    .title-content {
+        flex-grow: 1;      /* Chiếm toàn bộ không gian còn lại */
+        text-align: center; /* Căn giữa nội dung chữ */
+        margin-right: 80px; /* Bù lại khoảng cách của logo để chữ nằm chính giữa màn hình */
+    }
+
+    .title-content h1 {
+        margin: 0;
+        font-size: 28px;
+        color: #0ce73c; /* Màu xanh đậm chuyên nghiệp */
+        text-transform: uppercase;
+    }
+
+    .title-content p {
+        margin: 5px 0 0 0;
+        font-style: italic;
+        color: #cef106;
+    }
+</style>
+
+<div class="header-wrapper">
+    <img src="https://lh3.googleusercontent.com/u/0/d/1pvgGXoH3PeMQsKQz1SN7R02gTudoNvHR" 
+         alt="Logo" 
+         class="logo-img">
+    
+    <div class="title-content">
+        <h1>📍ÔN TẬP CUỐI HỌC KÌ 2 - PHẦN TRẮC NGHIỆM</h1>
+        <p>Biên soạn: Phạm Thị Xuân</p>
+    </div>
+</div>
+
+
+    <div id="quiz-auth">
+        <h2>📝 BÀI TẬP TỰ ĐÁNH GIÁ</h2>
+        <p>Hệ thống bài tập trắc nghiệm và kéo thả (không cần gõ dấu)</p>
+        <input type="text" id="userName" class="input-name" placeholder="Họ và tên học sinh..."><br><br>
+        <button class="btn btn-main" onclick="startQuiz()">LÀM BÀI NGAY</button>
+    </div>
+
+    <div id="quiz-content">
+        <div style="display:flex; justify-content: space-between; padding: 15px; background: var(--secondary); color:white; border-radius: 10px; margin-bottom: 20px;">
+            <span>Học sinh: <b id="stName"></b></span>
+            <span>⏱ Thời gian: <b id="timeClock">15:00</b></span>
+        </div>
+        <div id="quiz-list"></div>
+        <button class="btn btn-main" id="subBtn" onclick="finishQuiz()" style="display:block; margin: 40px auto; background: var(--accent);">NỘP BÀI</button>
+        <div id="final-result" style="text-align:center; font-size: 2rem; font-weight: bold; margin-bottom: 50px;"></div>
+    </div>
+</div>
+<div class="sim-container">
+    <canvas id="geoCanvas" width="600" height="250"></canvas>
+    <div class="slider-ui">
+        <input type="range" id="geoSlider" min="50" max="200" value="125" style="width:100%">
+        <p id="geoReadout" style="font-size: 1.2rem; margin-top: 10px;"></p>
+    </div>
+</div>
+<script>
+    
+    
+    // --- QUIZ SYSTEM ---
+ const quizData = [
+    { id: 1, type: 'mcq', text: 'Cho $\\dfrac{x}{6} = \\dfrac{-2}{3}$. Kết quả giá trị $x$ là:', opts: ['$4$', '$-4$', '$1$', '$-1$'], corr: 1 },
+    { id: 2, type: 'mcq', text: 'Cho $\\dfrac{7}{12}x = \\dfrac{1}{-4}$. Kết quả giá trị $x$ là:', opts: ['$\\dfrac{-3}{7}$', '$\\dfrac{3}{7}$', '$\\dfrac{-7}{48}$', '$\\dfrac{7}{48}$'], corr: 0 },
+    { id: 3, type: 'mcq', text: 'Hỗn số $-2\\dfrac{1}{3}$ được viết dưới dạng phân số là:', opts: ['$\\dfrac{-5}{3}$', '$\\dfrac{5}{3}$', '$\\dfrac{7}{3}$', '$\\dfrac{-7}{3}$'], corr: 3 },
+    { id: 4, type: 'mcq', text: '$\\dfrac{3}{4}$ của $200$ trang sách là:', opts: ['$100$ trang', '$50$ trang', '$200$ trang', '$150$ trang'], corr: 3 },
+    { id: 5, type: 'mcq', text: 'Số thập phân 12,3456 được làm tròn đến hàng phần trăm là:', opts: ['$12,34$', '$12,3$', '$12,35$', '$12,346$'],  corr: 2 },
+    { id: 6, type: 'mcq', text: 'Trong các cặp phân số sau, cặp phân số nào bằng nhau?', opts: ['$\\dfrac{1}{2}$ và $\\dfrac{2}{-4}$', '$\\dfrac{2}{3}$ và $\\dfrac{-4}{6}$', '$\\dfrac{3}{7}$ và $\\dfrac{-9}{-21}$', '$\\dfrac{2}{-3}$ và $\\dfrac{-3}{2}$'],  corr: 2 },
+    { id: 7, type: 'mcq', text: 'Khẳng định nào sau đây đúng?', opts: ['Giá trị của phân số $\\dfrac{0}{0}$ là $0$ ', '$\\dfrac{3}{2}=\\dfrac{-6}{-4}$', '$\\dfrac{-3}{2}>\\dfrac{-2}{3}$', '$\\dfrac{4}{7}+\\dfrac{-3}{2}=\\dfrac{-1}{9}$'],  corr: 1 },
+    { id: 8, type: 'mcq', text: 'Giá trị của $\\dfrac{3}{4}$ của $-20$ là:',  opts: ['$-5$', '$-10$', '$-15$', '$-20$'], corr: 2 },
+    { id: 9, type: 'mcq', text: 'Trong các số sau đây, số nào lớn hơn 12,34?', opts: ['$12,33$', '$12,3$', '$12,4$', '$12,04$'], corr: 2 },
+    { id: 10, type: 'mcq', text: 'Phân số $\\dfrac{-15}{100}$ viết dưới dạng số thập phân là:', opts: ['$-1,5$', '$-0,15$', '$0,15$', '$1,5$'], corr: 1 },
+    { id: 11, type: 'mcq', text: 'Hỗn số $2\\dfrac{1}{3}$ được viết dưới dạng phân số là:', opts: ['$\\dfrac{7}{3}$', '$\\dfrac{5}{3}$', '$\\dfrac{6}{3}$', '$\\dfrac{8}{3}$'], corr: 0 },
+    { id: 12, type: 'mcq', text: 'Số đối của $-0,15$ là:', opts: ['$-0,15$', '$0,15$', '$-1,5$', '$1,5$'], corr: 1 },
+    { id: 13, type: 'mcq', text: 'Tìm $x$ biết $x + 25\\% = \\dfrac{1}{2}$:', opts: ['$\\dfrac{1}{4}$', '$\\dfrac{1}{2}$', '$\\dfrac{3}{4}$', '$\\dfrac{-1}{4}$'], corr: 0 },
+    { id: 14, type: 'mcq', text: 'Trong các phân số sau, phân số bằng với $\\dfrac{-2}{3}$ là:',  opts: ['$\\dfrac{4}{6}$', '$\\dfrac{-6}{9}$', '$\\dfrac{6}{9}$', '$\\dfrac{-4}{-6}$'],  corr: 1 },
+    { id: 15, type: 'mcq', text: 'Giá trị của $\\dfrac{3}{4}$ của $-20$ là:', opts: ['$-5$', '$-10$', '$-15$', '$-20$'], corr: 2 },
+    { id: 16, type: 'mcq', text: 'Làm tròn số $12,3456$ đến chữ số hàng phần mười?',  opts: ['$12,3$', '$12,4$', '$12,35$', '$12,34$'], corr: 0 },
+    { id: 17, type: 'mcq', text: 'Số đối của $\\dfrac{-5}{7}$ là:', opts: ['$\\dfrac{5}{7}$', '$\\dfrac{5}{-7}$', '$\\dfrac{7}{-5}$', '$\\dfrac{-7}{5}$'], corr: 0 },
+    { id: 18, type: 'mcq', text: 'Trong các hình sau, hình nào có trục đối xứng?', opts: ['Hình tam giác đều', 'Hình tam giác nhọn', 'Hình bình hành', 'Hình tam giác thường'], corr: 0 },
+    { id: 19, type: 'mcq', text: 'Hình nào sau đây KHÔNG có tâm đối xứng?', opts: ['Lục giác đều', 'Hình bình hành', 'Hình thoi', 'Tam giác đều'], corr: 3 },
+    { id: 20, type: 'mcq', text: 'Tâm đối xứng của hình tròn là:', opts: [ 'Tâm của đường tròn',  'Một điểm bất kì nằm bên trong đường tròn',  'Một điểm bất kì nằm trên đường tròn', 'Một điểm bất kì nằm bên ngoài đường tròn'], corr: 0 },
+    { id: 21, type: 'mcq', text: 'Tìm $x$ biết $\\dfrac{2}{5}-2x=\\dfrac{-3}{5}$', opts: ['$\\dfrac{-1}{2}$', '$\\dfrac{1}{2}$', '$1$', '$-1$'], corr: 1 },
+    { id: 22, type: 'mcq', text: 'Tỉ số phần trăm của 5 và 8 là?', opts: ['$50\\%$', '$60\\%$', '$62,5\\%$', '$80\\%$'], corr: 2 },
+    { id: 23, type: 'mcq', text: 'Biết $\\dfrac{3}{5}$ của một số bằng 12. Số đó là?', opts: ['$12$', '$3$', '$5$', '$20$'], corr: 3 },
+    { id: 24, type: 'mcq', text: 'Số $22\\,712$ làm tròn đến hàng nghìn là?', opts: ['$22\\,000$', '$23\\,000$', '$22\\,700$', '$20\\,000$'], corr: 1 },
+    { id: 25, type: 'mcq', text: 'Tập hợp tất cả các kết quả có thể xảy ra của phép thử nghiệm tung đồng xu $1$ lần là?', opts: ['$X=\\{NN;S \\}$', '$X=\\{S \\}$', '$X=\\{N\\}$', '$X=\\{N;S \\}$'], corr: 3 },
+    { id: 26, type: 'mcq', text: 'Giá trị của $\\dfrac{3}{5}$ của $-15$ là:', opts: ['$9$', '$-9$', '$-25$', '$25$'], corr: 1 },
+    { id: 27, type: 'mcq', text: 'Cho hình vẽ sau. Trong các phát biểu sau, phát biểu nào đúng:<br>' + 
+          '<img src="Cau26.png" alt="Hình minh họa tia Ax" style="display:block; margin: 10px auto; max-width: 25%; height: auto; border: 1px solid #ccc;">' 
+          , 
+    opts: [
+        '$D \\in m$', 
+        '$A \\in m$', 
+        '$E \\in m$', 
+        '$B \\notin m$'
+    ], 
+    corr: 1 },
+     { id: 28, type: 'mcq', text: 'Cho hình vẽ sau. Góc $xOy$ còn có tên gọi khác là:<br>' + 
+          '<img src="Cau27.png" alt="Hình minh họa tia Ax" style="display:block; margin: 10px auto; max-width: 25%; height: auto; border: 1px solid #ccc;">' 
+          , 
+    opts: [
+        '$ABO$', 
+        '$BOx$', 
+        '$BAO$', 
+        '$Oxy$'
+    ], 
+    corr: 1 },
+    { id: 29, type: 'mcq', text: 'Kết quả của phép tính $\\dfrac{1}{4}+ \\dfrac{-7}{-4}$ là:', opts: ['$2$', '$-2$', '$4$', '$\\dfrac{-5}{2}$'], corr: 0 },
+    { id: 30, type: 'mcq', text: 'Tìm $x$ biết  $\\dfrac{2}{5} -3x=\\dfrac{-1}{2}$:', opts: ['$\\dfrac{-3}{10}$', '$\\dfrac{3}{10}$', '$\\dfrac{27}{10}$', '$\\dfrac{-27}{10}$'], corr: 1 }
+
+];
+    let userAnswers = {};
+    let timer;
+let startTime;
+    function startQuiz() {
+        const name = document.getElementById('userName').value;
+        if(!name) return alert("Em nhập tên trước nhé!");
+        document.getElementById('quiz-auth').style.display = 'none';
+        document.getElementById('quiz-content').style.display = 'block';
+        document.getElementById('stName').innerText = name;
+        startTime = new Date();
+        renderQuiz();
+        
+        let t = 900;
+        timer = setInterval(() => {
+            t--; let m = Math.floor(t/60), s = t%60;
+            document.getElementById('timeClock').innerText = `${m}:${s<10?'0'+s:s}`;
+            if(t<=0) finishQuiz();
+        }, 1000);
+    }
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-list');
+        container.innerHTML = "";
+        quizData.forEach((q, i) => {
+            let div = document.createElement('div');
+            div.className = 'q-card';
+            div.id = `card_${q.id}`;
+            let html = `<b>Câu ${i+1}:</b> ${q.text}<br>`;
+            
+            if(q.type === 'mcq') {
+                html += `<div class="options-grid">`;
+                q.opts.forEach((o, idx) => {
+                    html += `<div class="option-btn" onclick="selectMCQ(${q.id}, ${idx})" id="opt_${q.id}_${idx}">${o}</div>`;
+                });
+                html += `</div>`;
+            } else {
+                html += `<div style="margin-top:10px;"><div class="drop-zone" id="dz_${q.id}">Kéo vào đây</div> `;
+                q.opts.forEach(o => {
+                    let oid = o.replace(/[^a-zA-Z]/g,'');
+                    html += `<div class="draggable" draggable="true" id="dg_${q.id}_${oid}" data-v="${o}">${o}</div>`;
+                });
+                html += `</div>`;
+            }
+            html += `<div class="ans-feedback" id="fb_${q.id}"></div>`;
+            div.innerHTML = html;
+            container.appendChild(div);
+        });
+        if (window.MathJax) MathJax.typesetPromise();
+        initDrag();
+    }
+
+    function selectMCQ(qId, idx) {
+        userAnswers[qId] = idx;
+        document.querySelectorAll(`#card_${qId} .option-btn`).forEach(b => b.classList.remove('selected'));
+        document.getElementById(`opt_${qId}_${idx}`).classList.add('selected');
+    }
+
+    function initDrag() {
+        document.querySelectorAll('.draggable').forEach(d => d.ondragstart = e => e.dataTransfer.setData('text', e.target.id));
+        document.querySelectorAll('.drop-zone').forEach(z => {
+            z.ondragover = e => e.preventDefault();
+            z.ondrop = e => {
+                e.preventDefault();
+                const id = e.dataTransfer.getData('text');
+                if(id.includes(`dg_${z.id.split('_')[1]}`)) {
+                    z.innerHTML = ""; z.appendChild(document.getElementById(id));
+                }
+            }
+        });
+    }
+
+  function finishQuiz() {
+    clearInterval(timer);
+    let score = 0;
+    let details = {};
+
+    // 1. Tính toán điểm và kết quả từng câu
+    quizData.forEach((q, i) => {
+        let isCorrect = false;
+        let card = document.getElementById(`card_${q.id}`); // THÊM DÒNG NÀY
+        let feedback = document.getElementById(`fb_${q.id}`); // THÊM DÒNG NÀY
+        
+        if(q.type === 'mcq') {
+            isCorrect = (userAnswers[q.id] === q.corr);
+        } else {
+            const zone = document.getElementById(`dz_${q.id}`);
+            if(zone && zone.children.length > 0) {
+                isCorrect = (zone.children[0].dataset.v === q.corr);
+            }
+        }
+        
+        if(isCorrect) score++;
+        
+        // THÊM ĐOẠN PHẢN HỒI TRỰC QUAN NÀY VÀO VÒNG LẶP
+        feedback.style.display = 'block';
+        if(isCorrect) {
+            feedback.innerHTML = "<span style='color:green; font-weight:bold;'>✓ Đúng!</span>";
+            card.style.borderColor = "green";
+        } else {
+            let correctText = (q.type === 'mcq') ? q.opts[q.corr] : q.corr;
+            feedback.innerHTML = `<span style='color:red; font-weight:bold;'>✗ Sai. Đáp án: ${correctText}</span>`;
+            card.style.borderColor = "red";
+        }
+        
+        details["Cau" + (i + 1)] = isCorrect ? "Đúng" : "Sai";
+    });
+
+    // 2. Cập nhật giao diện trước khi gửi
+    document.getElementById('final-result').innerText = `KẾT QUẢ: ${score} / ${quizData.length}`;
+    document.getElementById('subBtn').style.display = 'none'; // Ẩn nút nộp bài
+
+    // 3. Gửi dữ liệu 
+    let payload = {
+        name: document.getElementById('userName').value || "Ẩn danh",
+        score: score + "/" + quizData.length,
+        time: document.getElementById('timeClock').innerText,
+        details: JSON.stringify(details)
+    };
+
+    fetch('https://script.google.com/macros/s/AKfycbzS1i-g58ICiN2l9OxuNOQxDNvPwsF692qflJ4hrj3ryvXAbfnu4kbEYAcm_dKBE0n0Jg/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(() => alert("Đã nộp bài thành công!"))
+    .catch(err => alert("Lỗi gửi dữ liệu: " + err));
+}
+   
+   
+</script>
+</body>
+</html>
